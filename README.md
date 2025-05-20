@@ -1,76 +1,65 @@
-# Pulse
+# Pulse - Gestión de Estados y Actividades
 
-Aplicación de gestión de tiempo y actividades desarrollada en C# WPF.
+![Logo Pulse](Assets/Images/Logo_pulse_blanco.png)
 
 ## Descripción
-
-Pulse es una aplicación de escritorio diseñada para ayudar a los usuarios a gestionar su tiempo y actividades. Ofrece un sistema de estados que permite a los usuarios registrar en qué están trabajando, cuánto tiempo llevan en cada tarea y mantener un historial de sus actividades.
+Pulse es una aplicación de escritorio desarrollada en C# con WPF que permite a los usuarios gestionar sus estados de trabajo y actividades diarias. Diseñada con una interfaz moderna y minimalista, Pulse facilita el seguimiento del tiempo dedicado a diferentes tareas y la planificación de actividades.
 
 ## Características
+- **Gestión de Estados**: Define y cambia fácilmente entre diferentes estados de trabajo o actividad.
+- **Seguimiento de Tiempo**: Registro automático del tiempo dedicado a cada estado.
+- **Historial de Estados**: Visualiza un historial completo de tus cambios de estado.
+- **Planificación de Actividades**: Gestiona las actividades planificadas para el día.
+- **Persistencia de Datos**: Todos los datos se almacenan localmente para mantener tu información segura.
+- **Interfaz Intuitiva**: Diseño limpio y funcional que facilita su uso diario.
 
-- **Gestión de estados**: Registra diferentes estados de actividad (trabajo, descanso, reunión, etc.)
-- **Seguimiento de tiempo**: Controla el tiempo invertido en cada estado o actividad
-- **Planificación de actividades**: Programa actividades y recibe recordatorios
-- **Historial de estados**: Consulta el historial de estados y actividades
-- **Interfaz moderna**: Diseño limpio y fácil de usar con WPF
+## Tecnologías
+- **Lenguaje**: C# (.NET 7.0)
+- **Framework UI**: Windows Presentation Foundation (WPF)
+- **Arquitectura**: Modelo-Vista-ViewModel (MVVM)
+- **Persistencia**: Almacenamiento en JSON local
 
-## Tecnologías utilizadas
+## Estructura del Proyecto
+- **/Models**: Clases de modelo de datos
+- **/ViewModels**: ViewModels que implementan la lógica de presentación
+- **/Views**: Vistas WPF
+- **/Services**: Servicios de la aplicación
+- **/Repositories**: Implementaciones de acceso a datos
+- **/Helpers**: Clases auxiliares
+- **/Assets**: Recursos gráficos y fuentes
 
-- C# .NET 9.0
-- Windows Presentation Foundation (WPF)
-- Patrón MVVM
-- Serialización JSON para almacenamiento de datos
-
-## Requisitos del sistema
-
+## Requisitos del Sistema
 - Windows 10/11
-- .NET 9.0 Runtime
+- .NET 7.0 Runtime o superior
 
 ## Instalación
-
-1. Descarga la última versión desde la página de releases
+1. Descarga la última versión desde la sección de releases
 2. Ejecuta el instalador y sigue las instrucciones
 3. Inicia la aplicación desde el menú de inicio o el acceso directo creado
 
 ## Desarrollo
-
-### Requisitos previos
-
-- Visual Studio 2022 o superior
-- .NET 9.0 SDK
-
-### Configuración del entorno de desarrollo
+Para contribuir al desarrollo:
 
 1. Clona el repositorio
 ```
 git clone https://github.com/just1n5/Pulse.git
 ```
 
-2. Abre la solución en Visual Studio
+2. Abre la solución en Visual Studio 2022 o posterior
 ```
-PulseLogin.sln
+cd Pulse
+start PulseLogin.sln
 ```
 
-3. Restaura los paquetes NuGet si es necesario
-
-4. Compila y ejecuta la aplicación
-
-### Estructura del proyecto
-
-- **Models**: Definición de datos
-- **ViewModels**: Lógica de presentación
-- **Views**: Interfaz de usuario
-- **Services**: Servicios y lógica de negocio
-- **Repositories**: Acceso a datos y persistencia
-
-## Contribución
-
-Si deseas contribuir al proyecto, consulta nuestra guía de contribución en el archivo CONTRIBUTING.md.
+3. Compila y ejecuta la aplicación
+```
+dotnet build
+dotnet run
+```
 
 ## Licencia
-
-Este proyecto está licenciado bajo los términos de la licencia MIT. Consulta el archivo LICENSE para más detalles.
+Este proyecto está bajo la licencia MIT. Ver el archivo LICENSE para más detalles.
 
 ## Contacto
-
-Para cualquier consulta o sugerencia, no dudes en crear un issue en este repositorio.
+- Desarrollador: just1n5
+- GitHub: [https://github.com/just1n5](https://github.com/just1n5)
