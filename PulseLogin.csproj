@@ -2,13 +2,60 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net9.0-windows</TargetFramework>
+    <TargetFramework>net7.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>Assets\Icons\app_icon.ico</ApplicationIcon>
+    <Version>0.1.2</Version>
+    <Authors>just1n5</Authors>
+    <Company>Pulse</Company>
+    <Description>Aplicación para seguimiento de estados y actividades</Description>
+    <Copyright>Copyright © 2025</Copyright>
+    <PackageProjectUrl>https://github.com/just1n5/Pulse</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/just1n5/Pulse</RepositoryUrl>
   </PropertyGroup>
-<ItemGroup>
-  <Resource Include="Assets\Fonts\*.ttf" />
-  <Resource Include="Assets\Images\*.*" />
-</ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Assets\Fonts\Inter-Black.ttf" />
+    <None Remove="Assets\Fonts\Inter-Bold.ttf" />
+    <None Remove="Assets\Fonts\Inter-ExtraBold.ttf" />
+    <None Remove="Assets\Fonts\Inter-ExtraLight.ttf" />
+    <None Remove="Assets\Fonts\Inter-Light.ttf" />
+    <None Remove="Assets\Fonts\Inter-Medium.ttf" />
+    <None Remove="Assets\Fonts\Inter-Regular.ttf" />
+    <None Remove="Assets\Fonts\Inter-SemiBold.ttf" />
+    <None Remove="Assets\Fonts\Inter-Thin.ttf" />
+    <None Remove="Assets\Images\Logo_pulse_blanco.png" />
+    <None Remove="Assets\Images\Logo_pulse_sinf_ondo_en_blanco.svg" />
+    <None Remove="Assets\Images\user_avatar.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Assets\Icons\app_icon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Text.Json" Version="7.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\Fonts\Inter-Black.ttf" />
+    <Resource Include="Assets\Fonts\Inter-Bold.ttf" />
+    <Resource Include="Assets\Fonts\Inter-ExtraBold.ttf" />
+    <Resource Include="Assets\Fonts\Inter-ExtraLight.ttf" />
+    <Resource Include="Assets\Fonts\Inter-Light.ttf" />
+    <Resource Include="Assets\Fonts\Inter-Medium.ttf" />
+    <Resource Include="Assets\Fonts\Inter-Regular.ttf" />
+    <Resource Include="Assets\Fonts\Inter-SemiBold.ttf" />
+    <Resource Include="Assets\Fonts\Inter-Thin.ttf" />
+    <Resource Include="Assets\Images\Logo_pulse_blanco.png" />
+    <Resource Include="Assets\Images\Logo_pulse_sinf_ondo_en_blanco.svg" />
+    <Resource Include="Assets\Images\user_avatar.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Assets\Icons\" />
+  </ItemGroup>
+
 </Project>
