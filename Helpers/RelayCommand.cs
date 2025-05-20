@@ -1,10 +1,11 @@
 using System;
 using System.Windows.Input;
+using System.Diagnostics;
 
 namespace PulseLogin.Helpers
 {
     /// <summary>
-    /// Implementación de ICommand que encapsula un delegado para la ejecución y, opcionalmente, un delegado para determinar si se puede ejecutar.
+    /// Implementación de ICommand que encapsula una acción y una condición de ejecución
     /// </summary>
     public class RelayCommand : ICommand
     {
@@ -12,19 +13,7 @@ namespace PulseLogin.Helpers
         private readonly Func<bool>? _canExecute;
 
         /// <summary>
-        /// Crea una nueva instancia de RelayCommand.
-        /// </summary>
-        /// <param name="execute">Acción a ejecutar cuando se invoca el comando.</param>
-        /// <param name="canExecute">Función que determina si el comando puede ejecutarse.</param>
-        /// <exception cref="ArgumentNullException">Si execute es null.</exception>
-        public RelayCommand(Action execute, Func<bool>? canExecute = null)
-        {
-            _execute = execute ?? throw new ArgumentNullException(nameof(execute));
-            _canExecute = canExecute;
-        }
-
-        /// <summary>
-        /// Evento que se dispara cuando cambian las condiciones que afectan si el comando puede ejecutarse.
+        /// Evento que se dispara cuando cambian las condiciones para la ejecución del comando
         /// </summary>
         public event EventHandler? CanExecuteChanged
         {
@@ -33,42 +22,78 @@ namespace PulseLogin.Helpers
         }
 
         /// <summary>
-        /// Determina si este comando puede ejecutarse con los parámetros proporcionados.
+        /// Constructor que inicializa el comando con una acción
         /// </summary>
-        /// <param name="parameter">Parámetro de datos para el comando (no utilizado).</param>
-        /// <returns>True si el comando puede ejecutarse; de lo contrario, false.</returns>
-        public bool CanExecute(object? parameter) => _canExecute?.Invoke() ?? true;
+        /// <param name="execute">Acción a ejecutar</param>
+        public RelayCommand(Action execute) : this(execute, null)
+        {
+        }
 
         /// <summary>
-        /// Ejecuta el comando con los parámetros proporcionados.
+        /// Constructor que inicializa el comando con una acción y una condición
         /// </summary>
-        /// <param name="parameter">Parámetro de datos para el comando (no utilizado).</param>
-        public void Execute(object? parameter) => _execute();
+        /// <param name="execute">Acción a ejecutar</param>
+        /// <param name="canExecute">Función que determina si se puede ejecutar</param>
+        public RelayCommand(Action execute, Func<bool>? canExecute)
+        {
+            _execute = execute ?? throw new ArgumentNullException(nameof(execute));
+            _canExecute = canExecute;
+        }
+
+        /// <summary>
+        /// Determina si el comando puede ejecutarse
+        /// </summary>
+        /// <param name="parameter">Parámetro para la ejecución (no utilizado)</param>
+        /// <returns>True si el comando puede ejecutarse</returns>
+        public bool CanExecute(object? parameter)
+        {
+            try
+            {
+                return _canExecute == null || _canExecute();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error en CanExecute: {ex.Message}");
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Ejecuta el comando
+        /// </summary>
+        /// <param name="parameter">Parámetro para la ejecución (no utilizado)</param>
+        public void Execute(object? parameter)
+        {
+            try
+            {
+                _execute();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error al ejecutar comando: {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Fuerza una reevaluación de las condiciones de ejecución
+        /// </summary>
+        public void RaiseCanExecuteChanged()
+        {
+            CommandManager.InvalidateRequerySuggested();
+        }
     }
 
     /// <summary>
-    /// Implementación genérica de ICommand que acepta un parámetro de tipo T.
+    /// Implementación de ICommand que encapsula una acción con parámetro y una condición de ejecución
     /// </summary>
-    /// <typeparam name="T">Tipo del parámetro que acepta el comando.</typeparam>
+    /// <typeparam name="T">Tipo del parámetro</typeparam>
     public class RelayCommand<T> : ICommand
     {
         private readonly Action<T?> _execute;
         private readonly Predicate<T?>? _canExecute;
 
         /// <summary>
-        /// Crea una nueva instancia de RelayCommand genérico.
-        /// </summary>
-        /// <param name="execute">Acción a ejecutar cuando se invoca el comando.</param>
-        /// <param name="canExecute">Función que determina si el comando puede ejecutarse.</param>
-        /// <exception cref="ArgumentNullException">Si execute es null.</exception>
-        public RelayCommand(Action<T?> execute, Predicate<T?>? canExecute = null)
-        {
-            _execute = execute ?? throw new ArgumentNullException(nameof(execute));
-            _canExecute = canExecute;
-        }
-
-        /// <summary>
-        /// Evento que se dispara cuando cambian las condiciones que afectan si el comando puede ejecutarse.
+        /// Evento que se dispara cuando cambian las condiciones para la ejecución del comando
         /// </summary>
         public event EventHandler? CanExecuteChanged
         {
@@ -77,61 +102,64 @@ namespace PulseLogin.Helpers
         }
 
         /// <summary>
-        /// Determina si este comando puede ejecutarse con los parámetros proporcionados.
+        /// Constructor que inicializa el comando con una acción que acepta un parámetro
         /// </summary>
-        /// <param name="parameter">Parámetro de datos para el comando. Se convierte al tipo T.</param>
-        /// <returns>True si el comando puede ejecutarse; de lo contrario, false.</returns>
+        /// <param name="execute">Acción a ejecutar</param>
+        public RelayCommand(Action<T?> execute) : this(execute, null)
+        {
+        }
+
+        /// <summary>
+        /// Constructor que inicializa el comando con una acción y una condición, ambas con parámetro
+        /// </summary>
+        /// <param name="execute">Acción a ejecutar</param>
+        /// <param name="canExecute">Función que determina si se puede ejecutar</param>
+        public RelayCommand(Action<T?> execute, Predicate<T?>? canExecute)
+        {
+            _execute = execute ?? throw new ArgumentNullException(nameof(execute));
+            _canExecute = canExecute;
+        }
+
+        /// <summary>
+        /// Determina si el comando puede ejecutarse
+        /// </summary>
+        /// <param name="parameter">Parámetro para la evaluación</param>
+        /// <returns>True si el comando puede ejecutarse</returns>
         public bool CanExecute(object? parameter)
         {
-            if (_canExecute == null)
-                return true;
-
-            if (parameter == null)
-                return _canExecute(default);
-
-            if (parameter is T tParameter)
-                return _canExecute(tParameter);
-
-            // Intentar convertir el parámetro al tipo T
             try
             {
-                var parameterT = (T?)Convert.ChangeType(parameter, typeof(T));
-                return _canExecute(parameterT);
+                return _canExecute == null || _canExecute((T?)parameter);
             }
-            catch
+            catch (Exception ex)
             {
+                Debug.WriteLine($"Error en CanExecute<T>: {ex.Message}");
                 return false;
             }
         }
 
         /// <summary>
-        /// Ejecuta el comando con los parámetros proporcionados.
+        /// Ejecuta el comando
         /// </summary>
-        /// <param name="parameter">Parámetro de datos para el comando. Se convierte al tipo T.</param>
+        /// <param name="parameter">Parámetro para la ejecución</param>
         public void Execute(object? parameter)
         {
-            if (parameter == null)
-            {
-                _execute(default);
-                return;
-            }
-
-            if (parameter is T tParameter)
-            {
-                _execute(tParameter);
-                return;
-            }
-
-            // Intentar convertir el parámetro al tipo T
             try
             {
-                var parameterT = (T?)Convert.ChangeType(parameter, typeof(T));
-                _execute(parameterT);
+                _execute((T?)parameter);
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Error al convertir el parámetro: {ex.Message}");
+                Debug.WriteLine($"Error al ejecutar comando<T>: {ex.Message}");
             }
+        }
+
+        /// <summary>
+        /// Fuerza una reevaluación de las condiciones de ejecución
+        /// </summary>
+        public void RaiseCanExecuteChanged()
+        {
+            CommandManager.InvalidateRequerySuggested();
         }
     }
 }
